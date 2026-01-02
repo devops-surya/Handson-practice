@@ -1,4 +1,4 @@
-# VPC-Only Terraform Configuration
+# VPC Terraform Configuration
 
 ## Overview
 
