@@ -1,4 +1,3 @@
 # Ignore .terraform folders and provider cache
 **/.terraform/
-**/.terraform.lock.hcl
 
