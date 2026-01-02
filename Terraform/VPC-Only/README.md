@@ -8,11 +8,124 @@ This Terraform configuration creates a production-ready AWS VPC infrastructure w
 
 ## Architecture
 
-### Network Design
-- **VPC CIDR**: 10.0.0.0/16
-- **Public Subnets**: 3 subnets (10.0.1.0/24, 10.0.2.0/24, 10.0.3.0/24)
-- **Private Subnets**: 3 subnets (10.0.11.0/24, 10.0.12.0/24, 10.0.13.0/24)
-- **Availability Zones**: Distributed across 3 AZs for redundancy
+### Architecture Diagram
+
+**Visual Diagram:** [View Interactive Diagram](VPC_Architecture_Diagram_Clear.drawio)
+
+> **Note:** The draw.io file can be viewed directly on GitHub or opened with [draw.io](https://app.diagrams.net/) for an interactive visualization.
+
+**Text-Based Diagram:**
+
+```
+                                       INTERNET
+                                      (0.0.0.0/0)
+                                          |
+                                          |
+                        ┌─────────────────▼──────────────────┐
+                        │   Internet Gateway (1x)            │
+                        │   • Single IGW per VPC             │
+                        │   • Provides public route target    │
+                        └─────────────────┬──────────────────┘
+                                          |
+                                          | 0.0.0.0/0 route
+                                          |
+                    ┌─────────────────────┴─────────────────────┐
+                    │    Public Route Table                      │
+                    │    • Route: 0.0.0.0/0 → IGW               │
+                    │    • Associated with all public subnets    │
+                    └─────────────────────┬─────────────────────┘
+                                          |
+                  ┌───────────────────────┼───────────────────────┐
+                  │                       │                       │
+        ┌─────────▼──────────┐  ┌─────────▼──────────┐  ┌────────▼─────────┐
+        │  AZ: us-east-1a    │  │  AZ: us-east-1b    │  │  AZ: us-east-1c  │
+        ├────────────────────┤  ├────────────────────┤  ├──────────────────┤
+        │                    │  │                    │  │                  │
+        │  Public Subnet     │  │  Public Subnet     │  │  Public Subnet   │
+        │  10.0.1.0/24       │  │  10.0.2.0/24       │  │  10.0.3.0/24     │
+        │  (251 IPs)         │  │  (251 IPs)         │  │  (251 IPs)       │
+        │                    │  │                    │  │                  │
+        │  Resources:        │  │  Resources:        │  │  Resources:      │
+        │  • ALB             │  │  • ALB             │  │  • ALB           │
+        │  • NAT Gateway     │  │  • NAT Gateway     │  │  • NAT Gateway   │
+        │  • Bastion Host    │  │  • Bastion Host    │  │  • Bastion Host  │
+        │                    │  │                    │  │                  │
+        │  ┌────────────────┐│  │  ┌────────────────┐│  │  ┌────────────────┐
+        │  │ NAT GW (1)     ││  │  │ NAT GW (2)     ││  │  │ NAT GW (3)     │
+        │  │ EIP: x.x.x.x   ││  │  │ EIP: y.y.y.y   ││  │  │ EIP: z.z.z.z   │
+        │  └────────┬───────┘│  │  └────────┬───────┘│  │  └────────┬───────┘
+        │           │        │  │           │        │  │           │        │
+        │  ┌────────▼─────┐  │  │  ┌────────▼─────┐  │  │  ┌────────▼─────┐  │
+        │  │Private Route  │  │  │  │Private Route  │  │  │  │Private Route  │  │
+        │  │Table (1)      │  │  │  │Table (2)      │  │  │  │Table (3)      │  │
+        │  │0.0.0.0/0 →    │  │  │  │0.0.0.0/0 →    │  │  │  │0.0.0.0/0 →    │  │
+        │  │NAT GW (1)     │  │  │  │NAT GW (2)     │  │  │  │NAT GW (3)     │  │
+        │  └────────┬─────┘  │  │  └────────┬─────┘  │  │  └────────┬─────┘  │
+        │           │        │  │           │        │  │           │        │
+        │  ┌────────▼──────┐ │  │  ┌────────▼──────┐ │  │  ┌────────▼──────┐ │
+        │  │Private Subnet │ │  │  │Private Subnet │ │  │  │Private Subnet │ │
+        │  │10.0.11.0/24   │ │  │  │10.0.12.0/24   │ │  │  │10.0.13.0/24   │ │
+        │  │(251 IPs)      │ │  │  │(251 IPs)      │ │  │  │(251 IPs)      │ │
+        │  │                │ │  │  │                │ │  │  │                │ │
+        │  │Resources:      │ │  │  │Resources:      │ │  │  │Resources:      │ │
+        │  │• App Servers   │ │  │  │• App Servers   │ │  │  │• App Servers   │ │
+        │  │• Databases     │ │  │  │• Databases     │ │  │  │• Databases     │ │
+        │  │• Cache Nodes   │ │  │  │• Cache Nodes   │ │  │  │• Cache Nodes   │ │
+        │  │• EKS Workers   │ │  │  │• EKS Workers   │ │  │  │• EKS Workers   │ │
+        │  │• Lambda        │ │  │  │• Lambda        │ │  │  │• Lambda        │ │
+        │  └────────────────┘ │  │  └────────────────┘ │  │  └────────────────┘ │
+        │                    │  │                    │  │                  │
+        └────────────────────┘  └────────────────────┘  └──────────────────┘
+                  │                       │                       │
+                  └───────────────────────┼───────────────────────┘
+                                          │
+                        ┌─────────────────▼──────────────────┐
+                        │    VPC (10.0.0.0/16)               │
+                        │    • 65,536 Total IP Addresses     │
+                        │    • 3 Public + 3 Private Subnets  │
+                        │    • Multi-AZ for HA               │
+                        └──────────────────────────────────────┘
+```
+
+### Key Architecture Features
+
+| Feature | Details |
+|---------|---------|
+| **Internet Gateway** | Single IGW attached to VPC; routes all public internet traffic |
+| **Public Subnets** | 3 subnets across 3 AZs with auto-assign public IPs enabled |
+| **NAT Gateways** | 3 NAT gateways (1 per AZ) for private subnet outbound traffic |
+| **Private Subnets** | 3 subnets across 3 AZs with no internet exposure |
+| **Route Tables** | 1 public + 3 private route tables with proper routing rules |
+| **High Availability** | Multi-AZ deployment ensures fault tolerance |
+| **Network Isolation** | Public/Private separation for security |
+
+### Traffic Flow Architecture
+
+```
+INBOUND TRAFFIC (Internet → AWS):
+══════════════════════════════════════════════════════════════════════════
+   Internet → IGW → Public Subnet → Allowed by Security Groups/NACLs
+   Internet → IGW → Cannot reach Private Subnets (No direct route)
+
+OUTBOUND TRAFFIC (Private Resources → Internet):
+══════════════════════════════════════════════════════════════════════════
+   Private Resources → NAT GW (same AZ) → IGW → Internet
+   • Each AZ is independent
+   • Consistent outbound IP via Elastic IP
+   • Prevents direct internet exposure of private resources
+
+INTER-SUBNET COMMUNICATION (Same AZ):
+══════════════════════════════════════════════════════════════════════════
+   Public Subnet (AZ-1) ↔ Private Subnet (AZ-1) via VPC local route
+   Private Subnet (AZ-1) → App Server → Database (same AZ)
+
+INTER-AZ COMMUNICATION:
+══════════════════════════════════════════════════════════════════════════
+   Public Subnet (AZ-1) ↔ Public Subnet (AZ-2) via VPC local route
+   Private Subnet (AZ-1) ↔ Private Subnet (AZ-2) via VPC local route
+   All via 10.0.0.0/16 routing (no NAT needed for inter-AZ)
+```
+```
 
 ---
 

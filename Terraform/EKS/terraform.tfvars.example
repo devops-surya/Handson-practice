@@ -2,31 +2,30 @@
 # Copy this to terraform.tfvars and update values as needed
 
 aws_region     = "us-east-1"
-project_name   = "my-company"
+project_name   = "my-project"
 environment    = "production"
-cluster_name   = "my-eks-cluster"
-kubernetes_version = "1.29"
 
 # VPC Configuration
 vpc_cidr = "10.0.0.0/16"
-public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
 
-# Restrict API access to specific IPs for production
-cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]  # Update with your IP ranges
+# EKS Cluster Configuration
+cluster_name   = "my-eks-cluster"
+kubernetes_version = "1.29"
+cluster_endpoint_public_access = true
+cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]  # Update with your IP ranges for security
+enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
-# Node Group Configuration
-desired_node_count = 3
-min_node_count     = 2
-max_node_count     = 10
-node_instance_types = ["t3.large"]
-node_disk_size     = 100
+# Node Group Configuration (Multi-AZ Production)
+# Nodes will be automatically distributed across all private subnets (multiple AZs)
+node_group_name     = "main-node-group"
+desired_node_count  = 3  # Recommended: at least 2-3 nodes for multi-AZ
+min_node_count      = 2  # Minimum 2 for high availability
+max_node_count      = 6
+node_instance_types = ["t3.medium", "t3.large"]  # Multiple types for better distribution
+node_disk_size      = 20
+node_capacity_type  = "ON_DEMAND"  # Options: ON_DEMAND or SPOT
+node_update_max_unavailable_percentage = 10  # For zero-downtime updates
+node_key_pair_name  = null  # Optional: Add your EC2 key pair name for SSH access
 
-# Logging
-log_retention_days = 7
-
-# Optional: Spot nodes for cost optimization
-create_spot_node_group = false
-spot_desired_size      = 1
-spot_max_size          = 5
-spot_instance_types    = ["t3.large", "t3a.large", "m5.large"]

@@ -1,0 +1,166 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.3">
+  <diagram name="VPC Architecture - Clear" id="vpc-clear">
+    <mxGraphModel dx="3127" dy="1084" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1400" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="eSbrsMxNCLfIqF9GNnmd-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1396" width="1526" x="20" y="61" as="geometry" />
+        </mxCell>
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" value="AWS VPC Architecture - Multi-AZ Production Setup" vertex="1">
+          <mxGeometry height="40" width="800" x="-28" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="internet" parent="1" style="sketch=0;points=[];outlineConnect=0;fontColor=#232F3E;gradientColor=#F58534;gradientDirection=north;fillColor=#F58534;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=16;fontStyle=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.internet;" value="🌐 Internet" vertex="1">
+          <mxGeometry height="120" width="160" x="720" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="aws-region" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=14;fontStyle=1;strokeWidth=2;" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;AWS Region: us-east-1&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="1400" x="100" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5FF;strokeColor=#005A9F;fontSize=16;fontStyle=1;strokeWidth=3;dashed=0;" value="" vertex="1">
+          <mxGeometry height="1070" width="1360" x="120" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=25;fontStyle=1" value="VPC: 10.0.0.0/16 (DNS Enabled)" vertex="1">
+          <mxGeometry height="30" width="400" x="160" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="igw-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=14;fontStyle=1;strokeWidth=2;" value="Internet Gateway" vertex="1">
+          <mxGeometry height="60" width="240" x="680" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1" edge="1" parent="1" source="internet" style="endArrow=classic;html=1;rounded=0;strokeWidth=3;strokeColor=#FF9900;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="igw-box" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Public Traffic&lt;/font&gt;">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="800" y="300" as="sourcePoint" />
+            <mxPoint x="850" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="az1-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontSize=14;fontStyle=1;strokeWidth=2;" value="Availability Zone 1 (AZ-1)" vertex="1">
+          <mxGeometry height="880" width="400" x="160" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-subnet-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=16;fontStyle=1;strokeWidth=2;" value="Public Subnet 1&#xa;10.0.1.0/24" vertex="1">
+          <mxGeometry height="89" width="320" x="200" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="nat1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;fontStyle=1;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;NAT Gateway 1&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="240" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="eip1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;strokeColor=#BD7000;fontSize=11;fontColor=#000000;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Elastic IP 1&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="380" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="priv-subnet-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=13;fontStyle=1;strokeWidth=2;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Private Subnet 1&lt;br&gt;10.0.11.0/24&lt;br&gt;(Workloads/Databases)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="320" x="190" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="rt-private-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#5B9BD5;fontSize=15;align=center;" value="Private Route Table 1&#xa;Route: 0.0.0.0/0 → NAT-1" vertex="1">
+          <mxGeometry height="60" width="320" x="190" y="1020" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2" edge="1" parent="1" source="igw-box" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#FF9900;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;flowAnimation=1;" target="pub-subnet-1" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="410" />
+            </Array>
+            <mxPoint x="600" y="500" as="sourcePoint" />
+            <mxPoint x="650" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow3" edge="1" parent="1" source="nat1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#82B366;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.347;entryY=-0.008;entryDx=0;entryDy=0;flowAnimation=1;entryPerimeter=0;" target="priv-subnet-1" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Outbound&lt;/font&gt;">
+          <mxGeometry height="50" relative="1" width="50" x="1" y="-173" as="geometry">
+            <mxPoint x="72" y="140" as="offset" />
+            <mxPoint x="300" y="800" as="sourcePoint" />
+            <mxPoint x="350" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="az2-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontSize=14;fontStyle=1;strokeWidth=2;" value="Availability Zone 2 (AZ-2)" vertex="1">
+          <mxGeometry height="890" width="400" x="600" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-subnet-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=16;fontStyle=1;strokeWidth=2;" value="Public Subnet 2&#xa;10.0.2.0/24" vertex="1">
+          <mxGeometry height="92" width="320" x="640" y="534" as="geometry" />
+        </mxCell>
+        <mxCell id="nat2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;fontStyle=1;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;NAT Gateway 2&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="680" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="eip2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;strokeColor=#BD7000;fontSize=11;fontColor=#000000;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Elastic IP 2&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="820" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="priv-subnet-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=13;fontStyle=1;strokeWidth=2;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Private Subnet 2&lt;br&gt;10.0.12.0/24&lt;br&gt;(Workloads/Databases)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="320" x="640" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="rt-private-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#5B9BD5;fontSize=11;align=center;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Private Route Table 2&lt;br&gt;Route: 0.0.0.0/0 → NAT-2&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="320" x="650" y="1020" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow4" edge="1" parent="1" source="igw-box" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#FF9900;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;flowAnimation=1;" target="pub-subnet-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="800" y="500" as="sourcePoint" />
+            <mxPoint x="850" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow5" edge="1" parent="1" source="nat2" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#82B366;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.325;entryY=0.012;entryDx=0;entryDy=0;flowAnimation=1;entryPerimeter=0;" target="priv-subnet-2" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Outbound&lt;/font&gt;">
+          <mxGeometry height="50" relative="1" width="50" x="1" y="-173" as="geometry">
+            <mxPoint x="69" y="134" as="offset" />
+            <mxPoint x="740" y="800" as="sourcePoint" />
+            <mxPoint x="790" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="az3-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontSize=14;fontStyle=1;strokeWidth=2;" value="Availability Zone 3 (AZ-3)" vertex="1">
+          <mxGeometry height="890" width="400" x="1030" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-subnet-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=16;fontStyle=1;strokeWidth=2;" value="Public Subnet 3&#xa;10.0.3.0/24" vertex="1">
+          <mxGeometry height="91" width="320" x="1080" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="nat3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;fontStyle=1;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;NAT Gateway 3&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="1120" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="eip3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;strokeColor=#BD7000;fontSize=11;fontColor=#000000;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Elastic IP 3&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="1260" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="priv-subnet-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=13;fontStyle=1;strokeWidth=2;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Private Subnet 3&lt;br&gt;10.0.13.0/24&lt;br&gt;(Workloads/Databases)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="320" x="1080" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="rt-private-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#5B9BD5;fontSize=15;align=center;" value="Private Route Table 3&#xa;Route: 0.0.0.0/0 → NAT-3" vertex="1">
+          <mxGeometry height="60" width="320" x="1080" y="1020" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow6" edge="1" parent="1" source="igw-box" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#FF9900;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;flowAnimation=1;" target="pub-subnet-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="410" />
+            </Array>
+            <mxPoint x="1000" y="500" as="sourcePoint" />
+            <mxPoint x="1050" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow7" edge="1" parent="1" source="nat3" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#82B366;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.319;entryY=0.044;entryDx=0;entryDy=0;flowAnimation=1;entryPerimeter=0;" target="priv-subnet-3" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Outbound&lt;/font&gt;">
+          <mxGeometry height="50" relative="1" width="50" x="1" y="-175" as="geometry">
+            <mxPoint x="63" y="133" as="offset" />
+            <mxPoint x="1180" y="800" as="sourcePoint" />
+            <mxPoint x="1230" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rt-public" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#5B9BD5;fontSize=13;fontStyle=1;strokeWidth=2;align=center;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Public Route Table (Shared)&lt;br&gt;Route: 0.0.0.0/0 → Internet Gateway&lt;br&gt;Associated with: All 3 Public Subnets&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="1230" x="180" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="eSbrsMxNCLfIqF9GNnmd-6" connectable="0" parent="1" style="group;fontSize=20;" value="" vertex="1">
+          <mxGeometry height="200" width="1240" x="180" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-box" parent="eSbrsMxNCLfIqF9GNnmd-6" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=21;strokeWidth=1;fontStyle=0" value="" vertex="1">
+          <mxGeometry height="200" width="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="eSbrsMxNCLfIqF9GNnmd-7" connectable="0" parent="eSbrsMxNCLfIqF9GNnmd-6" style="group;fontSize=20;fontFamily=Verdana;" value="" vertex="1">
+          <mxGeometry height="130" width="1074.6666666666665" x="20.666666666666664" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="note1" parent="eSbrsMxNCLfIqF9GNnmd-7" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" value="• Public Subnets: Direct internet access via Internet Gateway" vertex="1">
+          <mxGeometry height="20" width="413.33333333333326" x="30.999999999999993" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="note2" parent="eSbrsMxNCLfIqF9GNnmd-7" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" value="• Private Subnets: Outbound internet via NAT Gateway (no inbound)" vertex="1">
+          <mxGeometry height="20" width="413.33333333333326" x="30.999999999999993" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="note3" parent="eSbrsMxNCLfIqF9GNnmd-7" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" value="• High Availability: Resources distributed across 3 Availability Zones" vertex="1">
+          <mxGeometry height="20" width="516.6666666666666" x="558" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="note4" parent="eSbrsMxNCLfIqF9GNnmd-7" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" value="• Each AZ has: 1 Public Subnet + 1 Private Subnet + 1 NAT Gateway" vertex="1">
+          <mxGeometry height="20" width="516.6666666666666" x="558" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="eSbrsMxNCLfIqF9GNnmd-11" edge="1" parent="eSbrsMxNCLfIqF9GNnmd-7" source="note4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="note4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes-box" parent="eSbrsMxNCLfIqF9GNnmd-6" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;Traffic Flow Notes:&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="206.66666666666663" x="479.99666666666667" y="10" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
