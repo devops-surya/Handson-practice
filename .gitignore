@@ -1,0 +1,4 @@
+# Ignore .terraform folders in Terraform directories
+Terraform/VPC-Only/.terraform/
+Terraform/EKS/.terraform/
+
